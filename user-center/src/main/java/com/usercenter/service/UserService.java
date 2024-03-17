@@ -1,5 +1,6 @@
 package com.usercenter.service;
 
+import com.usercenter.common.BaseResponse;
 import com.usercenter.model.domain.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,20 +14,35 @@ import javax.servlet.http.HttpServletRequest;
 public interface UserService extends IService<User> {
     /**
      * 用户注册
-     * @param userAccount：用户账户
+     * @param userAccount：用户账号
      * @param userPassword：用户密码
      * @param checkPassword：校验码
      * @return 成功返回注册用户id，否则-1
      */
-    public long userRegister(String userAccount, String userPassword, String checkPassword);
+    public BaseResponse<Long> userRegister(String userAccount, String userPassword, String checkPassword);
 
     /**
      * 用户登录
-     * @param userAccount：用户账户
+     * @param userAccount：用户账号
      * @param userPassword：用户密码
      * @return 返回脱敏后用户数据
      */
-    public User userLogin(String userAccount, String userPassword, HttpServletRequest request);
+    public BaseResponse<User> userLogin(String userAccount, String userPassword, HttpServletRequest request);
+
+    public BaseResponse<Void> userOutLogin(HttpServletRequest request);
+
+    /**
+     * 修改用户个人信息
+     * @param id
+     * @param userAccount
+     * @param username
+     * @param phone
+     * @param email
+     * @param avatarUrl
+     * @param gender
+     * @return boolean
+     */
+    public BaseResponse<Boolean> modifyUser(Long id, String userAccount, String username, String phone, String email, String avatarUrl, Integer gender);
 
     /**
      * 用户数据脱敏

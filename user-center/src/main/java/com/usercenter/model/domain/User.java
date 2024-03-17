@@ -67,7 +67,7 @@ public class User implements Serializable {
     private String username;
 
     /**
-     * 用户账户
+     * 用户账号
      */
     private String userAccount;
 

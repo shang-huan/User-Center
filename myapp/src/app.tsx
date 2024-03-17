@@ -7,10 +7,8 @@ import type { RunTimeLayoutConfig } from '@umijs/max';
 import { Link, history } from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
 import { errorConfig } from './requestErrorConfig';
-import { RequestConfig } from '@umijs/max';
+import { LOGIN_PATH, WHILT_LIST } from './constant';
 const isDev = process.env.NODE_ENV === 'development';
-const loginPath = '/user/login';
- 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
  * */
@@ -25,15 +23,15 @@ export async function getInitialState(): Promise<{
       const msg = await queryCurrentUser({
         skipErrorHandler: true,
       });
-      return msg.data;
+      return msg;
     } catch (error) {
-      history.push(loginPath);
+      history.push(LOGIN_PATH);
     }
     return undefined;
   };
-  // 如果不是登录页面，执行
+  // 如果不是白名单页面，执行
   const { location } = history;
-  if (location.pathname !== loginPath) {
+  if (!WHILT_LIST.includes(location.pathname)) {
     const currentUser = await fetchUserInfo();
     return {
       fetchUserInfo,
@@ -52,21 +50,26 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
   return {
     actionsRender: () => [<Question key="doc" />],
     avatarProps: {
-      src: initialState?.currentUser?.avatar,
+      src: initialState?.currentUser?.avatarUrl,
       title: <AvatarName />,
       render: (_, avatarChildren) => {
         return <AvatarDropdown>{avatarChildren}</AvatarDropdown>;
       },
     },
     waterMarkProps: {
-      content: initialState?.currentUser?.name,
+      content: initialState?.currentUser?.username,
     },
     footerRender: () => <Footer />,
     onPageChange: () => {
       const { location } = history;
+      // 如果在白名单内，不执行
+      if(!WHILT_LIST.includes(location.pathname)){
+        return;
+      }
       // 如果没有登录，重定向到 login
-      if (!initialState?.currentUser && location.pathname !== loginPath) {
-        history.push(loginPath);
+      console.log('initialState', initialState);
+      if (initialState?.currentUser === null) {
+        history.push(LOGIN_PATH);
       }
     },
     bgLayoutImgList: [
@@ -89,15 +92,15 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         width: '331px',
       },
     ],
-    links: isDev
-      ? [
-          <Link key="openapi" to="/umi/plugin/openapi" target="_blank">
-            <LinkOutlined />
-            <span>OpenAPI 文档</span>
-          </Link>,
-        ]
-      : [],
-    menuHeaderRender: undefined,
+    // links: isDev
+    //   ? [
+    //       <Link key="openapi" to="/umi/plugin/openapi" target="_blank">
+    //         <LinkOutlined />
+    //         <span>OpenAPI 文档</span>
+    //       </Link>,
+    //     ]
+    //   : [],
+    // menuHeaderRender: undefined,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
     // 增加一个 loading 的状态
@@ -134,5 +137,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
 export const request = {
   ...errorConfig,
   // prefix: 'http://localhost:8080',
-  timeout: 1000
+  timeout: 10000
 };
+

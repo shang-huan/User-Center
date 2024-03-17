@@ -7,12 +7,13 @@ spring:
     username: root
     password: oyt.2001
 #  session 有效时间：1天
-  session:
-    timeout: 86400
+
 server:
   port: 8080
   servlet:
     context-path: /api
+    session:
+      timeout: 86400
 
 mybatis-plus:
   global-config:

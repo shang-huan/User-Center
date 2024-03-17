@@ -3,24 +3,40 @@
 
 declare namespace API {
   type CurrentUser = {
-    name?: string;
-    avatar?: string;
-    userid?: string;
-    email?: string;
-    signature?: string;
-    title?: string;
-    group?: string;
-    tags?: { key?: string; label?: string }[];
-    notifyCount?: number;
-    unreadCount?: number;
-    country?: string;
-    access?: string;
-    geographic?: {
-      province?: { label?: string; key?: string };
-      city?: { label?: string; key?: string };
-    };
-    address?: string;
-    phone?: string;
+      id?: number;
+      userAccount?: string;
+      avatarUrl?: string;
+      phone?: string;
+      email?: string;
+      username?: string;
+      gender?: number;
+      userRole?: number;
+
+      // name?: string;
+      // avatar?: string;
+      // userid?: string;
+      // // email?: string;
+      // signature?: string;
+      // title?: string;
+      // group?: string;
+      // tags?: { key?: string; label?: string }[];
+      // notifyCount?: number;
+      // unreadCount?: number;
+      // country?: string;
+      // access?: string;
+      // geographic?: {
+      //   province?: { label?: string; key?: string };
+      //   city?: { label?: string; key?: string };
+      // };
+      // address?: string;
+      // phone?: string;
+  };
+
+  type BaseResponse<T> = {
+    code: number;
+    data: T;
+    message: string;
+    description: string;
   };
 
   type LoginResult = {
@@ -29,6 +45,17 @@ declare namespace API {
     type?: string;
     currentAuthority?: string;
   };
+
+  type RegisterResult = number;
+
+  type SearchResult = {
+    data?: CurrentUser[];
+    /** 列表的内容总数 */
+    total?: number;
+    success?: boolean;
+  };
+
+  type ModifyResult = boolean;
 
   type PageParams = {
     current?: number;
@@ -69,6 +96,25 @@ declare namespace API {
     type?: string;
   };
 
+  type RegisterParams = {
+    userAccount?: string;
+    userPassword?: string;
+    checkPassword?: string;
+  };
+
+  type SearchParams = {
+    userAccount?: string;
+  };
+
+  type ModifyParams = {
+    userAccount?: string;
+    userName?: string;
+    phone?: string;
+    email?: string;
+    avatarUrl?: string;
+    gender?: number;
+  };
+
   type ErrorResponse = {
     /** 业务约定的错误码 */
     errorCode: string;
@@ -100,3 +146,5 @@ declare namespace API {
     type?: NoticeIconItemType;
   };
 }
+
+

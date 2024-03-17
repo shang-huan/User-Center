@@ -12,11 +12,10 @@ enum ErrorShowType {
 }
 // 与后端约定的响应数据格式
 interface ResponseStructure {
-  success: boolean;
+  code?: number;
   data: any;
-  errorCode?: number;
-  errorMessage?: string;
-  showType?: ErrorShowType;
+  message?: string;
+  description?: string;  
 }
 
 /**
@@ -29,12 +28,12 @@ export const errorConfig: RequestConfig = {
   errorConfig: {
     // 错误抛出
     errorThrower: (res) => {
-      const { success, data, errorCode, errorMessage, showType } =
+      const { code, data, message, description } =
         res as unknown as ResponseStructure;
-      if (!success) {
-        const error: any = new Error(errorMessage);
+      if (code !== 0) {
+        const error: any = new Error(message);
         error.name = 'BizError';
-        error.info = { errorCode, errorMessage, showType, data };
+        error.info = { code, message, description};
         throw error; // 抛出自制的错误
       }
     },
@@ -45,29 +44,7 @@ export const errorConfig: RequestConfig = {
       if (error.name === 'BizError') {
         const errorInfo: ResponseStructure | undefined = error.info;
         if (errorInfo) {
-          const { errorMessage, errorCode } = errorInfo;
-          switch (errorInfo.showType) {
-            case ErrorShowType.SILENT:
-              // do nothing
-              break;
-            case ErrorShowType.WARN_MESSAGE:
-              message.warning(errorMessage);
-              break;
-            case ErrorShowType.ERROR_MESSAGE:
-              message.error(errorMessage);
-              break;
-            case ErrorShowType.NOTIFICATION:
-              notification.open({
-                description: errorMessage,
-                message: errorCode,
-              });
-              break;
-            case ErrorShowType.REDIRECT:
-              // TODO: redirect
-              break;
-            default:
-              message.error(errorMessage);
-          }
+          message.error(`错误码: ${errorInfo.code},${errorInfo.message},${errorInfo.description}`);
         }
       } else if (error.response) {
         // Axios 的错误
@@ -96,14 +73,14 @@ export const errorConfig: RequestConfig = {
 
   // 响应拦截器
   responseInterceptors: [
-    (response) => {
+    (response):any => {
       // 拦截响应数据，进行个性化处理
-      const { data } = response as unknown as ResponseStructure;
-
-      if (data?.success === false) {
-        message.error('请求失败！');
+      const { data : result } = response as ResponseStructure;
+      console.log('result',result);
+      if(result?.code != 0 && errorConfig.errorConfig?.errorThrower){
+        errorConfig.errorConfig?.errorThrower(result);
       }
-      return response;
+      return response.data;
     },
   ],
 };

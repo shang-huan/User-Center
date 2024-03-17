@@ -4,4 +4,10 @@ export const SYSTEM_LINK = "https://www.4399.com/";
 
 export const ADMIN_LINK = "https://www.4399.com/";
 
-export const GITHUB_LINK = "https://github.com/"
+export const GITHUB_LINK = "https://github.com/";
+
+export const LOGIN_PATH = '/user/login';
+
+export const WHILT_LIST = ['/user/login', '/user/register'];
+
+export const SUCCESS_CODE = 0;

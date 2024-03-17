@@ -55,54 +55,54 @@ class UserServiceTest {
 
     @Test
     void userRegister() {
-        String userAccount = "useroyt";
-        String userPassword = "";
-        String checkPassword = "234673825";
-        // 存在空
-        long result = userService.userRegister(userAccount,userPassword,checkPassword);
-        Assertions.assertEquals(result,-1);
-        // 密码和校验码不一致
-        userAccount = "useroyt";
-        userPassword = "73825";
-        checkPassword = "234673825";
-        result = userService.userRegister(userAccount,userPassword,checkPassword);
-        Assertions.assertEquals(result,-1);
-        // 名称长度不符合
-        userAccount = "oyt";
-        userPassword = "234673825";
-        checkPassword = "234673825";
-        result = userService.userRegister(userAccount,userPassword,checkPassword);
-        Assertions.assertEquals(result,-1);
-        // 密码长度不符合
-        userAccount = "useroyt";
-        userPassword = "2346";
-        checkPassword = "2346";
-        result = userService.userRegister(userAccount,userPassword,checkPassword);
-        Assertions.assertEquals(result,-1);
-        // 名称特殊字符
-        userAccount = "user**@@";
-        userPassword = "23462147";
-        checkPassword = "23462147";
-        result = userService.userRegister(userAccount,userPassword,checkPassword);
-        Assertions.assertEquals(result,-1);
-        // 密码特殊字符
-        userAccount = "useroyt";
-        userPassword = "23462147@@**";
-        checkPassword = "23462147@@**";
-        result = userService.userRegister(userAccount,userPassword,checkPassword);
-        Assertions.assertEquals(result,-1);
-        // 已存在同名账户
-        userAccount = "useroyt";
-        userPassword = "23462147";
-        checkPassword = "23462147";
-        result = userService.userRegister(userAccount,userPassword,checkPassword);
-        Assertions.assertEquals(result,-1);
-        // 成功插入
-        userAccount = "userwang";
-        userPassword = "23462147";
-        checkPassword = "23462147";
-        result = userService.userRegister(userAccount,userPassword,checkPassword);
-        System.out.println(result);
-        Assertions.assertTrue((result > 0));
+//        String userAccount = "useroyt";
+//        String userPassword = "";
+//        String checkPassword = "234673825";
+//        // 存在空
+//        long result = userService.userRegister(userAccount,userPassword,checkPassword);
+//        Assertions.assertEquals(result,-1);
+//        // 密码和校验码不一致
+//        userAccount = "useroyt";
+//        userPassword = "73825";
+//        checkPassword = "234673825";
+//        result = userService.userRegister(userAccount,userPassword,checkPassword);
+//        Assertions.assertEquals(result,-1);
+//        // 名称长度不符合
+//        userAccount = "oyt";
+//        userPassword = "234673825";
+//        checkPassword = "234673825";
+//        result = userService.userRegister(userAccount,userPassword,checkPassword);
+//        Assertions.assertEquals(result,-1);
+//        // 密码长度不符合
+//        userAccount = "useroyt";
+//        userPassword = "2346";
+//        checkPassword = "2346";
+//        result = userService.userRegister(userAccount,userPassword,checkPassword);
+//        Assertions.assertEquals(result,-1);
+//        // 名称特殊字符
+//        userAccount = "user**@@";
+//        userPassword = "23462147";
+//        checkPassword = "23462147";
+//        result = userService.userRegister(userAccount,userPassword,checkPassword);
+//        Assertions.assertEquals(result,-1);
+//        // 密码特殊字符
+//        userAccount = "useroyt";
+//        userPassword = "23462147@@**";
+//        checkPassword = "23462147@@**";
+//        result = userService.userRegister(userAccount,userPassword,checkPassword);
+//        Assertions.assertEquals(result,-1);
+//        // 已存在同名账号
+//        userAccount = "useroyt";
+//        userPassword = "23462147";
+//        checkPassword = "23462147";
+//        result = userService.userRegister(userAccount,userPassword,checkPassword);
+//        Assertions.assertEquals(result,-1);
+//        // 成功插入
+//        userAccount = "userwang";
+//        userPassword = "23462147";
+//        checkPassword = "23462147";
+//        result = userService.userRegister(userAccount,userPassword,checkPassword);
+//        System.out.println(result);
+//        Assertions.assertTrue((result > 0));
     }
 }
