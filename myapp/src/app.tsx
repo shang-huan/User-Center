@@ -8,6 +8,7 @@ import { Link, history } from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
 import { errorConfig } from './requestErrorConfig';
 import { LOGIN_PATH, WHILT_LIST } from './constant';
+import { message } from 'antd';
 const isDev = process.env.NODE_ENV === 'development';
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
@@ -69,7 +70,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       // 如果没有登录，重定向到 login
       console.log('initialState', initialState);
       if (initialState?.currentUser === null) {
-        history.push(LOGIN_PATH);
+        history.replace(LOGIN_PATH);
       }
     },
     bgLayoutImgList: [
@@ -136,7 +137,8 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
  */
 export const request = {
   ...errorConfig,
-  // prefix: 'http://localhost:8080',
-  timeout: 10000
+  // prefix: process.env.NODE_ENV === 'production' ? 'http://localhost:8090': 'http://localhost:8000',
+  timeout: 10000,
 };
+
 

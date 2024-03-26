@@ -11,3 +11,5 @@ export const LOGIN_PATH = '/user/login';
 export const WHILT_LIST = ['/user/login', '/user/register'];
 
 export const SUCCESS_CODE = 0;
+
+export const REQUEST_PREFIX = 'http://121.40.253.205:8090'
