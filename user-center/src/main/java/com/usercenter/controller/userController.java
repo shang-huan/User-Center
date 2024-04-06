@@ -22,6 +22,7 @@ import static com.usercenter.constant.UserContent.USER_LOGIN_STATE;
 
 @RestController //适用于编写restful风格api，返回值默认为json类型
 @RequestMapping("/user")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class userController {
     @Resource
     private UserService userService;

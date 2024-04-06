@@ -72,7 +72,7 @@ export default () => {
           phone: val2?.phone,
           email: val2?.email,
           avatarUrl: val2?.avatarUrl,
-          gender: val2?.gender
+          gender: val2?.gender[0].value,
         });
         if(res === true){
           message.success('个人信息修改成功');

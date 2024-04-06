@@ -68,7 +68,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         return;
       }
       // 如果没有登录，重定向到 login
-      console.log('initialState', initialState);
+      // console.log('initialState', initialState);
       if (initialState?.currentUser === null) {
         history.replace(LOGIN_PATH);
       }
