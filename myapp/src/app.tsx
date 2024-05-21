@@ -137,6 +137,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
  */
 export const request = {
   ...errorConfig,
+  withCredentials: true,
   // prefix: process.env.NODE_ENV === 'production' ? 'http://localhost:8090': 'http://localhost:8000',
   timeout: 10000,
 };

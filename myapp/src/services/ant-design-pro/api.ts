@@ -5,6 +5,7 @@ import { request } from '@umijs/max';
 
 const prefix = process.env.NODE_ENV === 'production' ? REQUEST_PREFIX : '';
 
+
 /** 退出登录接口 POST /api/user/outLogin */
 export async function outLogin(options?: { [key: string]: any }) {
   return request<any>(prefix+'/api/user/outLogin', {
