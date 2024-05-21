@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import static com.usercenter.constant.UserContent.USER_LOGIN_STATE;
 import com.usercenter.common.BaseResponse;
@@ -121,9 +122,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         * 后端拿到前端传来的cookie,找到对应的seesion
         * 后端从session中可以找到取出基于该seesion存储的变量（用户登录信息等）
         * */
-        request.getSession().setAttribute(USER_LOGIN_STATE,safetyUser);
-//        System.out.println(request.getSession().getMaxInactiveInterval());
-//        request.getSession().setMaxInactiveInterval(84800);
+        HttpSession session = request.getSession();
+        session.setAttribute(USER_LOGIN_STATE, safetyUser);
 
         // 返回用户脱敏信息
         return ResultUtils.success(safetyUser);

@@ -9,11 +9,13 @@ import com.usercenter.exception.BusinessException;
 import com.usercenter.model.domain.User;
 import com.usercenter.model.request.*;
 import com.usercenter.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +24,8 @@ import static com.usercenter.constant.UserContent.USER_LOGIN_STATE;
 
 @RestController //适用于编写restful风格api，返回值默认为json类型
 @RequestMapping("/user")
-@CrossOrigin(origins = "*", maxAge = 3600)
+@Slf4j
+@CrossOrigin(origins = {"http://localhost:8080","http://121.40.253.205:8080"}, maxAge = 86400, allowCredentials = "true")
 public class userController {
     @Resource
     private UserService userService;
@@ -59,6 +62,8 @@ public class userController {
      */
     @PostMapping("/login")
     public BaseResponse<User> userLogin(@RequestBody UserLoginRequest userLoginRequest, HttpServletRequest request){
+        log.info("userLogin request:"+request.toString());
+        log.info("userLogin session:"+request.getSession().getId());
         if (userLoginRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR,"参数为空");
         }
@@ -104,10 +109,13 @@ public class userController {
 //        if(!isAdmin(request)){
 //            return null;
 //        }
-        Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
-        User currentUser = (User) userObj;
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            throw new BusinessException(ErrorCode.NULL_ERROR, "空会话");
+        }
+        User currentUser = (User) session.getAttribute(USER_LOGIN_STATE);
         if(currentUser == null){
-            throw new BusinessException(ErrorCode.NO_LOGIN_ERROR,"当前未登录");
+            throw new BusinessException(ErrorCode.NO_LOGIN_ERROR, "当前未登录");
         }
         // 若用户数据长期不变，可直接返回缓存数据
         //否则查询数据库返回用户数据
